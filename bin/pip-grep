@@ -49,17 +49,13 @@ def grep(reqfile, packages, silent=False):
             print('There was a problem loading the given requirement file.')
         exit(os.EX_NOINPUT)
 
-    for req in r.requirements:
-        if req.name in packages:
+    for p in packages:
+        if p in [ req.name for req in r.requirements]:
             if not silent:
-                print('Package {} found!'.format(req.name))
-            exit(0)
-
-    if not silent:
-        print('Not found.')
-
-    exit(1)
-
+                print('Package {} found!'.format(p))
+        else:
+            if not silent:
+                print('Package {} not found!'.format(p))
 
 def main():
     args = docopt(__doc__, version='pip-grep')
